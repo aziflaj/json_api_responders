@@ -2,7 +2,7 @@ require 'json_api_responders/version'
 require 'json_api_responders/errors'
 require 'json_api_responders/responder'
 
-module JsonApiresponders
+module JsonApiResponders
   def self.included(base)
     base.rescue_from ActiveRecord::RecordNotFound, with: :record_not_found!
     redefine_authorization(base)
