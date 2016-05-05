@@ -9,6 +9,8 @@ module JsonApiResponders
   end
 
   def self.redefine_authorization(base)
+    return unless base.instance_methods.include?(:authenticate_user_from_token!)
+
     base.class_eval do
       alias_method(:_authenticate_from_token!, :authenticate_user_from_token!)
 
