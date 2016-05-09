@@ -25,6 +25,15 @@ module JsonApiResponders
 
   private
 
+  def respond_with_error(error_type)
+    case error_type
+    when :unauthorized
+      Responder.new(nil, controller: self, status: :forbidden).unauthorized
+    when :not_found
+      Responder.new(nil, controller: self, status: :not_found).not_found
+    end
+  end
+
   def respond_with(resource, options = {})
     options = {
       namespace: self.class.parent,
@@ -37,11 +46,7 @@ module JsonApiResponders
   end
 
   def record_not_found!
-    Responder.new(nil, controller: self, status: :not_found).not_found
-  end
-
-  def unauthorized!
-    Responder.new(nil, controller: self, status: :forbidden).unauthorized
+    respond_with_error(:not_found)
   end
 
   def deserialized_params
