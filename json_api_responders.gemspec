@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Automatically respond to JSON::API requests'
   spec.description = 'Automatically respond to JSON::API requests'
-  spec.homepage = 'https://github.com/Stankec/json_api_responders'
+  spec.homepage = 'https://github.com/infinum/json_api_responders'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
