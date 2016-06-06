@@ -18,7 +18,7 @@ module JsonApiResponders
         result = catch(:warden) { _authenticate_from_token! }
 
         return unless result
-        unauthorized!
+        respond_with_error(:unauthorized)
       end
     end
   end
