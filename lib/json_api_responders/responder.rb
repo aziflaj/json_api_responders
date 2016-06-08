@@ -100,7 +100,7 @@ module JsonApiResponders
         errors[:errors] << {
           title: message,
           detail: resource.errors.full_message(attribute, message),
-          status: status_code,
+          status: status_code.to_s,
           source: {
             parameter: attribute,
             pointer: "data/attributes/#{attribute}"
