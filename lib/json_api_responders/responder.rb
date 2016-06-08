@@ -28,8 +28,13 @@ module JsonApiResponders
 
     def not_found
       self.errors = {
-        title: I18n.t('json_api.errors.not_found.title'),
-        status: status
+        errors: [
+          {
+            title: I18n.t('json_api.errors.not_found.title'),
+            detail: I18n.t('json_api.errors.not_found.detail'),
+            status: status_code
+          }
+        ]
       }
 
       render_error
@@ -37,8 +42,13 @@ module JsonApiResponders
 
     def unauthorized
       self.errors = {
-        title: I18n.t('json_api.errors.unauthorized.title'),
-        status: status
+        errors: [
+          {
+            title: I18n.t('json_api.errors.unauthorized.title'),
+            detail: I18n.t('json_api.errors.unauthorized.detail'),
+            status: status_code
+          }
+        ]
       }
 
       render_error
@@ -48,6 +58,10 @@ module JsonApiResponders
 
     def status=(status)
       @status = Sanitizers.status(status)
+    end
+
+    def status_code
+      Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
     end
 
     def action
@@ -86,13 +100,15 @@ module JsonApiResponders
         errors[:errors] << {
           title: message,
           detail: resource.errors.full_message(attribute, message),
-          status: Rack::Utils::SYMBOL_TO_STATUS_CODE[status],
+          status: status_code,
           source: {
             parameter: attribute,
             pointer: "data/attributes/#{attribute}"
           }
         }
       end
+
+      errors
     end
   end
 end
