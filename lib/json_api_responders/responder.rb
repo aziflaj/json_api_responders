@@ -65,7 +65,7 @@ module JsonApiResponders
 
     def error_render_options
       render_options.merge(
-        json: error_messages
+        json: error_response
       )
     end
 
@@ -76,13 +76,21 @@ module JsonApiResponders
       }
     end
 
-    def error_messages
+    def error_response
       return errors if errors
 
-      resource.errors.full_messages.map do |message|
-        {
+      errors ||= {}
+      errors[:errors] ||= []
+
+      resource.errors.each do |attribute, message|
+        errors[:errors] << {
           title: message,
-          status: status
+          detail: resource.errors.full_message(attribute, message),
+          status: Rack::Utils::SYMBOL_TO_STATUS_CODE[status],
+          source: {
+            parameter: attribute,
+            pointer: "data/attributes/#{attribute}"
+          }
         }
       end
     end
