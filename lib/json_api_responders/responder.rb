@@ -16,7 +16,7 @@ module JsonApiResponders
     def initialize(resource, options = {})
       @resource = resource
       @options = options
-      self.status = @options[:status] unless @options[:status]
+      self.status = @options[:status] if @options[:status]
       @params = @options[:params]
       @controller = @options[:controller]
       @namespace = @options[:namespace]
@@ -56,7 +56,7 @@ module JsonApiResponders
 
     def render_response
       return send("respond_to_#{action}_action") if action.in?(ACTIONS)
-      raise(JsonApi::Errors::UnknownAction, action)
+      raise(JsonApiResponders::Errors::UnknownAction, action)
     end
 
     def render_error
