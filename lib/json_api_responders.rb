@@ -37,7 +37,6 @@ module JsonApiResponders
   def respond_with(resource, options = {})
     options = {
       namespace: self.class.parent,
-      status: :ok,
       params: params,
       controller: self
     }.merge(options)

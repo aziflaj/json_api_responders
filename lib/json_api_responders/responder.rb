@@ -16,7 +16,7 @@ module JsonApiResponders
     def initialize(resource, options = {})
       @resource = resource
       @options = options
-      self.status = @options[:status]
+      self.status = @options[:status] unless @options[:status]
       @params = @options[:params]
       @controller = @options[:controller]
       @namespace = @options[:namespace]
