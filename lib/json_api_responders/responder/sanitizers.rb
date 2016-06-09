@@ -8,7 +8,7 @@ module JsonApiResponders
 
         if status.nil? || !status.is_a?(Symbol) ||
            Rack::Utils::SYMBOL_TO_STATUS_CODE[status].nil?
-          raise(JsonApi::Errors::UnknownHTTPStatus, status)
+          raise(JsonApiResponders::Errors::UnknownHTTPStatus, status)
         end
 
         status
