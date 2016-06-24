@@ -5,6 +5,7 @@ require 'json_api_responders/responder'
 module JsonApiResponders
   def self.included(base)
     base.rescue_from ActiveRecord::RecordNotFound, with: :record_not_found!
+    base.rescue_from ActionController::ParameterMissing, with: :parameter_missing!
     redefine_authorization(base)
   end
 
@@ -25,12 +26,14 @@ module JsonApiResponders
 
   private
 
-  def respond_with_error(error_type)
+  def respond_with_error(error_type, error_detail = nil)
     case error_type
     when :unauthorized
-      Responder.new(nil, controller: self, status: :forbidden).unauthorized
+      Responder.new(nil, controller: self, status: :forbidden, error_detail: error_detail).error
     when :not_found
-      Responder.new(nil, controller: self, status: :not_found).not_found
+      Responder.new(nil, controller: self, status: :not_found).error
+    when :parameter_missing
+      Responder.new(nil, controller: self, status: :unprocessable_entity, error_detail: error_detail).error
     end
   end
 
@@ -46,6 +49,10 @@ module JsonApiResponders
 
   def record_not_found!
     respond_with_error(:not_found)
+  end
+
+  def parameter_missing!(reason)
+    respond_with_error(:parameter_missing, reason.message)
   end
 
   def deserialized_params

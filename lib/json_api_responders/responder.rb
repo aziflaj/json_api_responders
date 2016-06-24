@@ -26,26 +26,12 @@ module JsonApiResponders
       render_response
     end
 
-    def not_found
+    def error
       self.errors = {
         errors: [
           {
-            title: I18n.t('json_api.errors.not_found.title'),
-            detail: I18n.t('json_api.errors.not_found.detail'),
-            status: status_code
-          }
-        ]
-      }
-
-      render_error
-    end
-
-    def unauthorized
-      self.errors = {
-        errors: [
-          {
-            title: I18n.t('json_api.errors.unauthorized.title'),
-            detail: I18n.t('json_api.errors.unauthorized.detail'),
+            title: I18n.t("json_api.errors.#{status}.title"),
+            detail: @options[:error_detail] || I18n.t("json_api.errors.#{status}.detail"),
             status: status_code
           }
         ]
@@ -64,17 +50,17 @@ module JsonApiResponders
       Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
     end
 
+    def render_error
+      controller.render(error_render_options)
+    end
+
     def action
       params[:action]
     end
 
     def render_response
       return send("respond_to_#{action}_action") if action.in?(ACTIONS)
-      raise(JsonApiResponders::Errors::UnknownAction, action)
-    end
-
-    def render_error
-      controller.render(error_render_options)
+      fail JsonApiResponders::Errors::UnknownAction, action
     end
 
     def error_render_options
@@ -98,7 +84,7 @@ module JsonApiResponders
 
       resource.errors.each do |attribute, message|
         errors[:errors] << {
-          title: message,
+          title: I18n.t("json_api.errors.#{status}.title"),
           detail: resource.errors.full_message(attribute, message),
           status: status_code.to_s,
           source: {
