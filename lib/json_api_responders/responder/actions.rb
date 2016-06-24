@@ -47,7 +47,8 @@ module JsonApiResponders
 
         render_options.merge(
           json: resource,
-          serializer_key => serializer_class
+          serializer_key => serializer_class,
+          include: options[:include]
         )
       end
 
