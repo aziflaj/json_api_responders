@@ -65,7 +65,7 @@ module JsonApiResponders
 
     def error_render_options
       render_options.merge(
-        json: error_response
+        json: error_response, status: 400
       )
     end
 
