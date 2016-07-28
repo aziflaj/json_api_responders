@@ -67,7 +67,7 @@ module JsonApiResponders
       end
 
       def relation?
-        resource.is_a?(ActiveRecord::Relation)
+        resource.is_a?(ActiveRecord::Relation) || resource.is_a?(Array)
       end
     end
   end
