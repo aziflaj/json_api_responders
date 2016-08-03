@@ -54,7 +54,7 @@ module JsonApiResponders
       end
 
       def serializer_class
-        options[:serializer] ||=
+        (relation? ? options[:each_serializer] : options[:serializer]) ||
           [
             namespace,
             "#{resource_class}Serializer"
