@@ -6,53 +6,23 @@ module JsonApiResponders
   def self.included(base)
     base.rescue_from ActiveRecord::RecordNotFound, with: :record_not_found!
     base.rescue_from ActionController::ParameterMissing, with: :parameter_missing!
-    redefine_authorization(base)
   end
 
-  def self.redefine_authorization(base)
-    return unless base.instance_methods.include?(:authenticate_user_from_token!)
-
-    base.class_eval do
-      alias_method(:_authenticate_from_token!, :authenticate_user_from_token!)
-
-      define_method :authenticate_user_from_token! do
-        result = catch(:warden) { _authenticate_from_token! }
-
-        return unless result
-        respond_with_error(:unauthorized)
-      end
-    end
-  end
-
-  private
-
-  def respond_with_error(error_type, error_detail = nil)
+  def respond_with_error(error_type, detail = nil)
     case error_type
     when :unauthorized
-      Responder.new(nil, controller: self, status: :forbidden, error_detail: error_detail).error
+      Responder.new(self, status: :forbidden, on_error: { error: detail }).error
     when :not_found
-      Responder.new(nil, controller: self, status: :not_found).error
+      Responder.new(self, status: :not_found).error
     when :parameter_missing
-      Responder.new(nil, controller: self, status: :unprocessable_entity, error_detail: error_detail).error
+      Responder.new(self, status: :unprocessable_entity, on_error: { error: detail }).error
     end
   end
 
   def respond_with(resource, options = {})
-    options = {
-      namespace: self.class.parent,
-      params: params,
-      controller: self
-    }.merge(options)
+    options = { params: params }.merge(options)
 
-    Responder.new(resource, options).respond!
-  end
-
-  def record_not_found!
-    respond_with_error(:not_found)
-  end
-
-  def parameter_missing!(reason)
-    respond_with_error(:parameter_missing, reason.message)
+    Responder.new(self, resource, options).respond!
   end
 
   def deserialized_params
@@ -62,6 +32,16 @@ module JsonApiResponders
           params, json_api_parse_options
         )
       )
+  end
+
+  private
+
+  def record_not_found!
+    respond_with_error(:not_found)
+  end
+
+  def parameter_missing!(reason)
+    respond_with_error(:parameter_missing, reason.message)
   end
 
   def json_api_parse_options

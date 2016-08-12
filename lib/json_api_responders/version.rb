@@ -1,6 +1,6 @@
 module JsonApiResponders
-  MAJOR = 1
-  MINOR = 2
-  PATCH = 2
+  MAJOR = 2
+  MINOR = 0
+  PATCH = 0
   VERSION = [MAJOR, MINOR, PATCH].join('.').freeze
 end
