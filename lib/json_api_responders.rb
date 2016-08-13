@@ -8,21 +8,13 @@ module JsonApiResponders
     base.rescue_from ActionController::ParameterMissing, with: :parameter_missing!
   end
 
-  def respond_with_error(error_type, detail = nil)
-    case error_type
-    when :unauthorized
-      Responder.new(self, status: :forbidden, on_error: { error: detail }).error
-    when :not_found
-      Responder.new(self, status: :not_found).error
-    when :parameter_missing
-      Responder.new(self, status: :unprocessable_entity, on_error: { error: detail }).error
-    end
-  end
-
   def respond_with(resource, options = {})
     options = { params: params }.merge(options)
-
     Responder.new(self, resource, options).respond!
+  end
+
+  def respond_with_error(status, detail = nil)
+    Responder.new(self, on_error: { status: status, error: detail }).respond_error
   end
 
   def deserialized_params

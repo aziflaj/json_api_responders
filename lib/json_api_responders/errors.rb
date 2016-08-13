@@ -30,7 +30,7 @@ module JsonApiResponders
 
       def message
         "Unknown controller action '#{action}'.\n"\
-        "Accepted actions are #{JsonApi::Responder::ACTIONS.join(', ')}"
+        "Accepted actions are #{JsonApiResponders::Responder::ACTIONS.join(', ')}"
       end
     end
 
