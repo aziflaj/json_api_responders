@@ -2,9 +2,10 @@
 
 [![Gem Version](https://badge.fury.io/rb/json_api_responders.svg)](https://badge.fury.io/rb/json_api_responders)
 [![Build Status](https://semaphoreci.com/api/v1/infinum/json_api_responders/branches/features-missing_responses/shields_badge.svg)](https://semaphoreci.com/infinum/json_api_responders)
-[![Code Climate](https://codeclimate.com/repos/57b0be0a598ebc4f2300120c/badges/b652f337b8c8bed28660/gpa.svg)](https://codeclimate.com/repos/57b0be0a598ebc4f2300120c/feed)
+[![Code Climate](https://codeclimate.com/github/infinum/json_api_responders/badges/gpa.svg)](https://codeclimate.com/github/infinum/json_api_responders)
+[![Test Coverage](https://codeclimate.com/github/infinum/json_api_responders/badges/coverage.svg)](https://codeclimate.com/github/infinum/json_api_responders/coverage)
+
 This gem gives a few convinient methods for working with JSONAPI. It is inspired by responders gem.
-[![Test Coverage](https://codeclimate.com/repos/57b0be0a598ebc4f2300120c/badges/b652f337b8c8bed28660/coverage.svg)](https://codeclimate.com/repos/57b0be0a598ebc4f2300120c/coverage)
 
 ## Installation
 
