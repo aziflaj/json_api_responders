@@ -27,14 +27,7 @@ module JsonApiResponders
   private
 
   def respond_with_error(error_type, error_detail = nil)
-    case error_type
-    when :unauthorized
-      Responder.new(nil, controller: self, status: :forbidden, error_detail: error_detail).error
-    when :not_found
-      Responder.new(nil, controller: self, status: :not_found).error
-    when :parameter_missing
-      Responder.new(nil, controller: self, status: :unprocessable_entity, error_detail: error_detail).error
-    end
+    Responder.new(nil, controller: self, status: error_type, error_detail: error_detail).error
   end
 
   def respond_with(resource, options = {})
