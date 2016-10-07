@@ -67,7 +67,7 @@ module JsonApiResponders
 
       resource.errors.each do |attribute, message|
         errors[:errors] << error_response(attribute, message)
-      end
+      end if resource.respond_to?(:errors)
 
       errors
     end
