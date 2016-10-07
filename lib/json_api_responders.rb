@@ -14,7 +14,7 @@ module JsonApiResponders
   end
 
   def respond_with_error(status, detail = nil)
-    Responder.new(self, on_error: { status: status, error: detail }).respond_error
+    Responder.new(self, nil, on_error: { status: status, detail: detail }).respond_error
   end
 
   def deserialized_params
