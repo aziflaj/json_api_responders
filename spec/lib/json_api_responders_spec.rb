@@ -38,7 +38,7 @@ describe JsonApiResponders do
     it 'calls responder with on_error' do
       expect(JsonApiResponders::Responder).to(
         receive(:new).with(
-          controller, on_error: { status: :forbidden, error: 'help me' }
+          controller, nil, on_error: { status: :forbidden, detail: 'help me' }
         ).and_return(responder)
       )
       expect(responder).to receive(:respond_error)
