@@ -14,7 +14,7 @@ module JsonApiResponders
       end
 
       def respond_to_create_action
-        if resource.persisted? && resource.valid?
+        if resource.valid?
           self.status ||= :created
           render_resource
         else
@@ -43,31 +43,7 @@ module JsonApiResponders
       end
 
       def resource_render_options
-        serializer_key = relation? ? :each_serializer : :serializer
-
-        render_options.merge(
-          json: resource,
-          serializer_key => serializer_class,
-          include: options[:include],
-          meta: options[:meta]
-        )
-      end
-
-      def serializer_class
-        (relation? ? options[:each_serializer] : options[:serializer]) ||
-          [
-            namespace,
-            "#{resource_class}Serializer"
-          ].compact.join('::').constantize
-      end
-
-      def resource_class
-        return resource.model if relation?
-        resource.class
-      end
-
-      def relation?
-        resource.is_a?(ActiveRecord::Relation) || resource.is_a?(Array)
+        render_options.merge(json: resource, **options)
       end
     end
   end

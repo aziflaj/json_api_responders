@@ -5,68 +5,52 @@ module JsonApiResponders
   class Responder
     include Actions
 
-    attr_accessor :errors
-    attr_accessor :status
+    attr_accessor :options
     attr_reader :resource
-    attr_reader :options
-    attr_reader :params
     attr_reader :controller
-    attr_reader :namespace
 
-    def initialize(resource, options = {})
+    def initialize(controller, resource = nil, options = {})
+      @controller = controller
       @resource = resource
       @options = options
-      self.status = @options[:status] if @options[:status]
-      @params = @options[:params]
-      @controller = @options[:controller]
-      @namespace = @options[:namespace]
     end
 
     def respond!
-      render_response
+      return send("respond_to_#{action}_action") if ACTIONS.include?(action)
+      raise JsonApiResponders::Errors::UnknownAction, action
     end
 
-    def error
-      self.errors = {
-        errors: [
-          {
-            title: I18n.t("json_api.errors.#{status}.title"),
-            detail: @options[:error_detail] || I18n.t("json_api.errors.#{status}.detail"),
-            status: status_code
-          }
-        ]
-      }
-
+    def respond_error
       render_error
+    end
+
+    def status
+      return nil if @options[:status].nil?
+      Sanitizers.status(@options[:status])
+    end
+
+    def status=(status)
+      @options[:status] = status
     end
 
     private
 
-    def status=(status)
-      @status = Sanitizers.status(status)
-    end
-
-    def status_code
-      Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-    end
-
     def render_error
-      controller.render(error_render_options)
+      controller.render(
+        render_options.merge(
+          json: error_render_options,
+          status: error_status
+        )
+      )
+    end
+
+    def error_status
+      return Sanitizers.status(on_error(:status)) if on_error(:status)
+      status
     end
 
     def action
-      params[:action]
-    end
-
-    def render_response
-      return send("respond_to_#{action}_action") if action.in?(ACTIONS)
-      fail JsonApiResponders::Errors::UnknownAction, action
-    end
-
-    def error_render_options
-      render_options.merge(
-        json: error_response
-      )
+      @options[:params][:action]
     end
 
     def render_options
@@ -76,25 +60,28 @@ module JsonApiResponders
       }
     end
 
-    def error_response
-      return errors if errors
+    def error_render_options
+      errors = { errors: [] }
 
-      errors ||= {}
-      errors[:errors] ||= []
+      errors[:errors] << { detail: on_error(:detail) } if on_error(:detail)
 
       resource.errors.each do |attribute, message|
-        errors[:errors] << {
-          title: I18n.t("json_api.errors.#{status}.title"),
-          detail: resource.errors.full_message(attribute, message),
-          status: status_code.to_s,
-          source: {
-            parameter: attribute,
-            pointer: "data/attributes/#{attribute}"
-          }
-        }
+        errors[:errors] << error_response(attribute, message)
       end
 
       errors
+    end
+
+    def error_response(attribute, message)
+      {
+        title: I18n.t("json_api.errors.#{status}.title"),
+        detail: resource.errors.full_message(attribute, message),
+        source: { parameter: attribute, pointer: "data/attributes/#{attribute}" }
+      }
+    end
+
+    def on_error(key)
+      @options.fetch(:on_error, {}).fetch(key, nil)
     end
   end
 end
