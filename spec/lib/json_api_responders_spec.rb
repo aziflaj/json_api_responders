@@ -14,7 +14,32 @@ describe JsonApiResponders do
       controller.respond_with(resource)
     end
 
+    context 'when config has required params' do
+      before do
+        JsonApiResponders.configure do |config|
+          config.required_options = [:foo]
+        end
+      end
+
+      it 'calls responder' do
+        expect(JsonApiResponders::Responder).to(
+          receive(:new).with(controller, resource, params: {}, foo: :bar).and_return(responder)
+        )
+        expect(responder).to receive(:respond!)
+        controller.respond_with(resource, foo: :bar)
+      end
+
+      it 'calls responder and raises error' do
+        expect{ controller.respond_with(resource) }.to raise_error(JsonApiResponders::Errors::RequiredOptionMissingError)
+      end
+    end
+
     context 'when resource invalid and on_error is passed' do
+      before do
+        JsonApiResponders.configure do |config|
+          config.required_options = []
+        end
+      end
       it 'calls responder' do
         allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(
@@ -28,7 +53,9 @@ describe JsonApiResponders do
           ] }
         )
         controller.respond_with(
-          resource, on_error: { status: 401, detail: 'Unauthorized' }, params: { action: 'create' }
+          resource,
+          on_error: { status: 401, detail: 'Unauthorized' },
+          params: { action: 'create' }
         )
       end
     end
