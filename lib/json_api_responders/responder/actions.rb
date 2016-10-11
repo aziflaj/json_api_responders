@@ -18,7 +18,7 @@ module JsonApiResponders
           self.status ||= :created
           render_resource
         else
-          self.status ||= :conflict
+          self.status ||= :unprocessable_entity
           render_error
         end
       end
@@ -28,7 +28,7 @@ module JsonApiResponders
           self.status ||= :ok
           render_resource
         else
-          self.status ||= :conflict
+          self.status ||= :unprocessable_entity
           render_error
         end
       end

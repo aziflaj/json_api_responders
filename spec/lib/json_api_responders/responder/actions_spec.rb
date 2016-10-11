@@ -16,7 +16,7 @@ describe JsonApiResponders::Responder do
       json: {
         errors: [
           {
-            title: 'json_api.errors.conflict.title',
+            title: 'json_api.errors.unprocessable_entity.title',
             detail: 'Name cant be blank',
             source: { parameter: :name, pointer: 'data/attributes/name' }
           }
@@ -59,9 +59,9 @@ describe JsonApiResponders::Responder do
     end
 
     context 'when resource invalid' do
-      let(:status) { :conflict }
+      let(:status) { :unprocessable_entity }
 
-      it 'renders conflict' do
+      it 'renders unprocessable_entity' do
         allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(error_options)
         responder.respond!
@@ -83,9 +83,9 @@ describe JsonApiResponders::Responder do
     end
 
     context 'when resource invalid' do
-      let(:status) { :conflict }
+      let(:status) { :unprocessable_entity }
 
-      it 'renders conflict' do
+      it 'renders unprocessable_entity' do
         allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(error_options)
         responder.respond!
