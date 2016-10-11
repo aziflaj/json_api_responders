@@ -31,15 +31,6 @@ module JsonApiResponders
     Responder.new(self, nil, on_error: { status: status, detail: detail }).respond_error
   end
 
-  def deserialized_params
-    @_deserialized_options ||=
-      ActionController::Parameters.new(
-        ActiveModelSerializers::Deserialization.jsonapi_parse(
-          params, json_api_parse_options
-        )
-      )
-  end
-
   private
 
   def record_not_found!
