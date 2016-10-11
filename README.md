@@ -31,16 +31,21 @@ whatever can be passed to controller.render can be passed here:
     respond_with user, serializer: UserSerializer
 
 ## Configuration
-Currently you can only configure which options are required to be passed through the `respond_with` method. Bellow you can find an example:
+Currently you can only configure which options are required to be passed through the `respond_with` method. These required options are categorized by the controller's actions. Bellow you can find an example:
 
     JsonApiResponders.configure do |config|
-        config.required_options = [:foo]
+        config.required_options = {
+          index: [:each_serializer],
+          create: [:serializer]
+        }
     end
     ...
-    user = User.first
-    respond_with user, foo: :bar
+    def create
+      user = User.create(...)
+      respond_with user, serializer: UserSerializer
+    end
 
-If `:foo` was left out of the `respond_with` method you would see the `JsonApiResponders::Errors::RequiredOptionMissingError` be raised.
+If `:serializer` was left out of the above `respond_with` method you would see the `JsonApiResponders::Errors::RequiredOptionMissingError` be raised.
 
 ## Responses
 
