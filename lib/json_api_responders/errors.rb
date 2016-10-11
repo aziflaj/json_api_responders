@@ -20,6 +20,19 @@ module JsonApiResponders
       end
     end
 
+    class RequiredOptionMissingError < StandardError
+      attr_reader :required_option
+
+      def initialize(required_option)
+        @required_option = required_option
+        super(message)
+      end
+
+      def message
+        "Option '#{required_option}' is missing."
+      end
+    end
+
     class UnknownAction < StandardError
       attr_reader :action
 
