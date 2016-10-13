@@ -32,15 +32,19 @@ class I18n
 end
 
 class Message
-  def initialize(array)
-    @array = array
+  def initialize(hash)
+    @hash = hash
   end
 
   def each(&block)
-    @array.each(&block)
+    @hash.each(&block)
   end
 
   def full_message(attribute, message)
     "#{attribute.to_s.capitalize} #{message}"
+  end
+
+  def any?
+    @hash.any?
   end
 end
