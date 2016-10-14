@@ -52,7 +52,7 @@ describe JsonApiResponders::Responder do
       let(:status) { :created }
 
       it 'renders created' do
-        allow(resource).to receive(:valid?).and_return(true)
+        allow(resource).to receive_message_chain(:errors, any?: false)
         expect(controller).to receive(:render).with(options)
         responder.respond!
       end
@@ -62,7 +62,6 @@ describe JsonApiResponders::Responder do
       let(:status) { :unprocessable_entity }
 
       it 'renders unprocessable_entity' do
-        allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(error_options)
         responder.respond!
       end
@@ -76,7 +75,7 @@ describe JsonApiResponders::Responder do
       let(:status) { :ok }
 
       it 'renders ok' do
-        allow(resource).to receive(:valid?).and_return(true)
+        allow(resource).to receive_message_chain(:errors, any?: false)
         expect(controller).to receive(:render).with(options)
         responder.respond!
       end
@@ -86,7 +85,6 @@ describe JsonApiResponders::Responder do
       let(:status) { :unprocessable_entity }
 
       it 'renders unprocessable_entity' do
-        allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(error_options)
         responder.respond!
       end

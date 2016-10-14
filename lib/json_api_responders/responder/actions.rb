@@ -14,22 +14,22 @@ module JsonApiResponders
       end
 
       def respond_to_create_action
-        if resource.valid?
-          self.status ||= :created
-          render_resource
-        else
+        if has_errors?
           self.status ||= :unprocessable_entity
           render_error
+        else
+          self.status ||= :created
+          render_resource
         end
       end
 
       def respond_to_update_action
-        if resource.valid?
-          self.status ||= :ok
-          render_resource
-        else
+        if has_errors?
           self.status ||= :unprocessable_entity
           render_error
+        else
+          self.status ||= :ok
+          render_resource
         end
       end
 
@@ -45,6 +45,13 @@ module JsonApiResponders
       def resource_render_options
         render_options.merge(json: resource, **options)
       end
+
+      private
+
+      def has_errors?
+        resource.respond_to?(:errors) && resource.errors.any?
+      end
+
     end
   end
 end

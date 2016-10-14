@@ -41,7 +41,6 @@ describe JsonApiResponders do
         end
       end
       it 'calls responder' do
-        allow(resource).to receive(:valid?).and_return(false)
         expect(controller).to receive(:render).with(
           status: :unauthorized,
           content_type: 'application/vnd.api+json',
