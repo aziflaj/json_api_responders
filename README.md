@@ -22,7 +22,7 @@ And then execute:
 ## Usage
 This gem comes with the two following methods `respond_with` and `respond_with_error`.
 
-##### `respond_with(resource, options = {}) `
+#### `respond_with(resource, options = {}) `
 This method requires a resource as a parameter, and you can pass some options if you wish. Any options you do choose to pass into `respond_with` will be passed on to the `controller.render` method. In the [Configuration section](#configuration) you can learn how to set mandatory options. Bellow you will find a few examples on how to use this method:
 
     user = User.first
@@ -35,7 +35,7 @@ The above example will render the **User** object.
 
 The above example will render an **Error** response if an error would occur.
 
-##### `respond_with_error(status, detail = nil)`
+#### `respond_with_error(status, detail = nil)`
 This method requires HTTP status code and an optional parameter explaining the error. This method will render an error message as described in the JSON API specification. Below you can see an example of how it should be used:
 
     respond_with_error, status: 401, detail: 'Bad credentials'
