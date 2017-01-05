@@ -19,7 +19,20 @@ And then execute:
 
     $ bundle
 
+Inside your base controller, include the module:
+
+```ruby
+module Api
+  module V1
+    class BaseController < ApplicationController
+      include JsonApiResponders
+    end
+  end
+end
+```
+
 ## Usage
+
 This gem comes with the two following methods `respond_with` and `respond_with_error`.
 
 #### `respond_with(resource, options = {}) `
