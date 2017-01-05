@@ -44,16 +44,17 @@ This method requires a resource as a parameter, and you can pass some options if
 The above example will render the **User** object.
 
     user = User.first
-    respond_with user, on_error: { status: :unauthorized, detail: 'Invalid user or password' }
+    respond_with user, on_error: { 
+    : :unauthorized, detail: 'Invalid user or password' }
 
 The above example will render an **Error** response if an error would occur.
 
 #### `respond_with_error(status, detail = nil)`
 This method requires HTTP status code and an optional parameter explaining the error. This method will render an error message as described in the JSON API specification. Below you can see an example of how it should be used:
 
-    respond_with_error, status: 401, detail: 'Bad credentials'
-    respond_with_error, status: 404, detail: 'Not found'
-    respond_with_error, status: 400, detail: 'Bad request'
+    respond_with_error(401, detail: 'Bad credentials')
+    respond_with_error(404, detail: 'Not found')
+    respond_with_error(400, detail: 'Bad request')
 
 
 ## Configuration
