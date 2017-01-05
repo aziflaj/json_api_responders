@@ -52,9 +52,9 @@ The above example will render an **Error** response if an error would occur.
 #### `respond_with_error(status, detail = nil)`
 This method requires HTTP status code and an optional parameter explaining the error. This method will render an error message as described in the JSON API specification. Below you can see an example of how it should be used:
 
-    respond_with_error(401, detail: 'Bad credentials')
-    respond_with_error(404, detail: 'Not found')
-    respond_with_error(400, detail: 'Bad request')
+    respond_with_error(401, 'Bad credentials')
+    respond_with_error(404, 'Not found')
+    respond_with_error(400, 'Bad request')
 
 
 ## Configuration
