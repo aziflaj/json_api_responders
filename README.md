@@ -102,6 +102,30 @@ If `:serializer` was left out of the above `respond_with` method you would see t
 
     head status: 204
 
+## Error translations
+
+`json_api_responders` has translation support for error title and details. Copy & paste this file to your `config/locales` folder:
+
+```yml
+en:
+  json_api:
+    errors:
+      not_found:
+        title: Not found
+        detail: Resource not found
+      forbidden:
+        title: Unauthorized
+        detail: User is not authorized to use this resource
+      unprocessable_entity:
+        title: Unprocessable Entity
+        details: Cannot process request
+      conflict:
+        title: Invalid Attribute
+        details: Something is missing
+```
+
+It translates using the format `I18n.t("json_api.errors.#{human_readable_status_code}.title")`
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/infinum/json_api_responders.
