@@ -1,6 +1,8 @@
 module JsonApiResponders
   class Config
     attr_reader :required_options
+    DEFAULT_RENDER_METHOD = :json
+    RENDER_METHODS = [:json_api, :json]
 
     def required_options=(opts = {})
       @required_options = opts
@@ -14,6 +16,18 @@ module JsonApiResponders
         @required_options[action].each do |key|
           raise JsonApiResponders::Errors::RequiredOptionMissingError, key unless options.key? key
         end
+      end
+    end
+
+    def render_method
+      @render_method || DEFAULT_RENDER_METHOD
+    end
+
+    def render_method=(render_method)
+      if RENDER_METHODS.include?(render_method)
+        @render_method = render_method
+      else
+        raise JsonApiResponders::Errors::InvalidRenderMethodError
       end
     end
 
