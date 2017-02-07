@@ -2,7 +2,7 @@ module JsonApiResponders
   class Config
     attr_reader :required_options
     DEFAULT_RENDER_METHOD = :json
-    RENDER_METHODS = [:json_api, :json]
+    RENDER_METHODS = [:jsonapi, :json]
 
     def required_options=(opts = {})
       @required_options = opts
