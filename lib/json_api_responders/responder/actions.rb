@@ -43,7 +43,6 @@ module JsonApiResponders
       end
 
       def resource_render_options
-        render_method = JsonApiResponders::Config.render_method
         render_options.merge(Hash[render_method, resource], **options)
       end
 
@@ -51,6 +50,10 @@ module JsonApiResponders
 
       def has_errors?
         resource.respond_to?(:errors) && resource.errors.any?
+      end
+
+      def render_method
+        JsonApiResponders.config.render_method
       end
 
     end
