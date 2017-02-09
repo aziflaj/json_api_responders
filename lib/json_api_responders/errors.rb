@@ -42,7 +42,7 @@ module JsonApiResponders
       end
 
       def message
-        "Invalid render method, must be one of: #{JsonApiResponders::Config::RENDER_METHODS}"
+        "#{render_method} render method is invalid, must be one of: #{JsonApiResponders::Config::RENDER_METHODS}"
       end
     end
 

@@ -43,7 +43,7 @@ module JsonApiResponders
       end
 
       def resource_render_options
-        render_options.merge(Hash[render_method, resource], **options)
+        render_options.merge(Hash[render_method, resource].merge(**options))
       end
 
       private

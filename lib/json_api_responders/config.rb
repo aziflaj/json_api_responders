@@ -27,7 +27,7 @@ module JsonApiResponders
       if RENDER_METHODS.include?(render_method)
         @render_method = render_method
       else
-        raise JsonApiResponders::Errors::InvalidRenderMethodError
+        raise JsonApiResponders::Errors::InvalidRenderMethodError, render_method
       end
     end
 
