@@ -33,6 +33,19 @@ module JsonApiResponders
       end
     end
 
+    class InvalidRenderMethodError < StandardError
+      attr_reader :render_method
+
+      def initialize(render_method)
+        @render_method = render_method
+        super(message)
+      end
+
+      def message
+        "#{render_method} render method is invalid, must be one of: #{JsonApiResponders::Config::RENDER_METHODS}"
+      end
+    end
+
     class UnknownAction < StandardError
       attr_reader :action
 
