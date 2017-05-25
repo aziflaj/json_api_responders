@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/infinum/json_api_responders/badges/gpa.svg)](https://codeclimate.com/github/infinum/json_api_responders)
 [![Test Coverage](https://codeclimate.com/github/infinum/json_api_responders/badges/coverage.svg)](https://codeclimate.com/github/infinum/json_api_responders/coverage)
 
-This gem gives a few convenient methods for working with JSONAPI. It is inspired by responders gem.
+This gem gives a few convenient methods for working with JSONAPI. It is inspired by the [responders](https://github.com/plataformatec/responders) gem.
 
 ## Installation
 
