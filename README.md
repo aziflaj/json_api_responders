@@ -1,7 +1,7 @@
 # JsonApiResponders
 
 [![Gem Version](https://badge.fury.io/rb/json_api_responders.svg)](https://badge.fury.io/rb/json_api_responders)
-[![Build Status](https://semaphoreci.com/api/v1/infinum/json_api_responders/branches/documentation-patch-1/shields_badge.svg)](https://semaphoreci.com/infinum/json_api_responders)
+[![Build Status](https://semaphoreci.com/api/v1/infinum/json_api_responders/branches/master/shields_badge.svg)](https://semaphoreci.com/infinum/json_api_responders)
 [![Code Climate](https://codeclimate.com/github/infinum/json_api_responders/badges/gpa.svg)](https://codeclimate.com/github/infinum/json_api_responders)
 [![Test Coverage](https://codeclimate.com/github/infinum/json_api_responders/badges/coverage.svg)](https://codeclimate.com/github/infinum/json_api_responders/coverage)
 
