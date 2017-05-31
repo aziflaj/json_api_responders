@@ -1,7 +1,6 @@
 module JsonApiResponders
   class Config
     attr_reader :required_options
-    # attr_reader :adapter
     DEFAULT_RENDER_METHOD = :json
     RENDER_METHODS = [:jsonapi, :json]
     DEFAULT_ADAPTER = :active_record
