@@ -58,13 +58,14 @@ This method requires HTTP status code and an optional parameter explaining the e
 
 
 ## Configuration
-Currently you can only configure which options are required to be passed through the `respond_with` method. These required options are categorized by the controller's actions. Bellow you can find an example:
+Currently you can configure which options are required to be passed through the `respond_with` method and the datadabase adapter. These required options are categorized by the controller's actions. Below you can find an example:
 
     JsonApiResponders.configure do |config|
         config.required_options = {
           index: [:each_serializer],
           create: [:serializer]
         }
+        config.adapter = :mongoid # default is :active_record
     end
     ...
     def create
@@ -73,6 +74,8 @@ Currently you can only configure which options are required to be passed through
     end
 
 If `:serializer` was left out of the above `respond_with` method you would see the `JsonApiResponders::Errors::RequiredOptionMissingError` be raised.
+
+Currently, the only database adaptors are Active Record and Mongoid.
 
 ## Responses
 
