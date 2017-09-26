@@ -12,7 +12,7 @@ This gem gives a few convenient methods for working with JSONAPI. It is inspired
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'json_api_responders'
+gem 'json_api_responders', git: 'https://github.com/aziflaj/json_api_responders.git', branch: 'mongoid'
 ```
 
 And then execute:
